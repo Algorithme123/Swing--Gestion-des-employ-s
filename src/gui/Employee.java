@@ -115,6 +115,50 @@ public class Employee {
                 }
             }
         });
+
+
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                String empid, empname, salary,mobile;
+
+                empname = txtName.getText();
+                salary = txtSalary.getText();
+                mobile = txtMobile.getText();
+                empid =txtid.getText();
+
+
+
+
+
+                try{
+//                    pst = con.prepareStatement("UPDATE  INTO employee (empname, salary, mobile) VALUES(?,?,?)");
+                    pst=con.prepareStatement("UPDATE employee SET empname = ?, salary = ?, mobile = ? WHERE id = ?");
+                    pst.setString(1,empname);
+                    pst.setString(2,salary);
+                    pst.setString(3,mobile);
+                    pst.setString(4,empid );
+
+                    pst.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, "Employee Updateddddddd ! ! !");
+
+                    table_load();
+
+                    txtName.setText("");
+                    txtSalary.setText("");
+                    txtMobile.setText("");
+                    txtName.requestFocus();
+
+
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+            }
+        });
     }
 
     // affichage du tableau
