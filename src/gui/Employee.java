@@ -1,12 +1,11 @@
 package gui;
 
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static java.lang.Class.forName;
 
@@ -50,6 +49,7 @@ public class Employee {
 
     public Employee() {
         connect();
+        table_load();
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,7 +69,7 @@ public class Employee {
 
                     pst.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Employee Addeddddddd ! ! !");
-//                    table_load();
+                    table_load();
                     txtName.setText("");
                     txtSalary.setText("");
                     txtMobile.setText("");
@@ -83,5 +83,18 @@ public class Employee {
 
             }
         });
+    }
+
+    // affichage du tableau
+    void table_load(){
+
+        try{
+            pst = con.prepareStatement("SELECT * FROM employee");
+            ResultSet rs = pst.executeQuery();
+            table1.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
