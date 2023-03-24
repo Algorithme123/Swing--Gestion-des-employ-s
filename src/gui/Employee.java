@@ -83,6 +83,38 @@ public class Employee {
 
             }
         });
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                try{
+                    String idEmp = txtid.getText();
+
+                    pst = con.prepareStatement("SELECT empname, salary, mobile FROM employee WHERE id = ?");
+                    pst.setString(1,idEmp);
+                    ResultSet rs = pst.executeQuery();
+
+                    if (rs.next()==true)
+                    {
+                        String empname = rs.getString(1);
+                        String salary = rs.getString(2);
+                        String mobile = rs.getString(3);
+
+                        txtName.setText(empname);
+                        txtSalary.setText(salary);
+                        txtMobile.setText(mobile);
+                    }
+                    else {
+                        txtName.setText("");
+                        txtSalary.setText("");
+                        txtMobile.setText("");
+                        JOptionPane.showMessageDialog(null,"Id invalid");
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
 
     // affichage du tableau
