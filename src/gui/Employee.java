@@ -159,6 +159,36 @@ public class Employee {
 
             }
         });
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String idEmp = txtid.getText();
+
+                try{
+
+                    pst = con.prepareStatement("DELETE FROM employee WHERE id= ?");
+
+                    pst.setString(1,idEmp);
+
+                    pst.executeUpdate();
+                    JOptionPane.showMessageDialog(null,"Employee supprimer avec success");
+
+                    table_load();
+
+                    txtName.setText("");
+                    txtSalary.setText("");
+                    txtMobile.setText("");
+                    txtName.requestFocus();
+
+
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+
+            }
+        });
     }
 
     // affichage du tableau
